@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPulse Pro</title>
+    <style>
+        :root {
+            --bg-main: #f5f5f7;       
+            --card-bg: #ffffff;       
+            --text-dark: #1d1d1f;     
+            --text-muted: #86868b;    
+            --accent-blue: #0066cc;   
+            --border-line: #e5e5ea;   
+            --error-red: #ff3b30;
+            --success-green: #34c759;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-main); color: var(--text-dark); font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; padding-top: 85px; overflow-x: hidden; }
+
+        /* 頂部導航列 */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; background: #ffffff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-line); z-index: 999; }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-link-btn { text-decoration: none; background: none; border: none; font-size: 18px; color: var(--text-dark); cursor: pointer; position: relative; }
+        .brand { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
+        .brand span { color: var(--accent-blue); }
+        .cart-badge { position: absolute; top: -5px; right: -8px; background: var(--accent-blue); color: #ffffff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+        /* 搜尋 */
+        .search-block { margin-top: 10px; margin-bottom: 24px; }
+        .search-container { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+        .search-container input { border: none; background: none; width: 100%; outline: none; font-size: 14px; color: var(--text-dark); }
+
+        /* 大標題 */
+        .hero { text-align: center; padding: 20px 0 30px 0; scroll-margin-top: 90px; }
+        .hero h1 { font-size: 32px; margin-bottom: 8px; font-weight: 700; }
+        .hero p { color: var(--text-muted); font-size: 15px; }
+
+        .category-section { scroll-margin-top: 90px; margin-top: 20px; }
+
+        /* 商品卡片 */
+        .product-card { background: var(--card-bg); border-radius: 20px; padding: 24px; border: 1px solid var(--border-line); margin-bottom: 24px; }
+        .hardware-canvas { width: 100%; height: 220px; border-radius: 14px; margin-bottom: 24px; background: #e5e5ea; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .hardware-canvas img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 原生 CSS 充電器圖形 (商品1保持使用) */
+        .hardware-body { width: 70px; height: 130px; background: #ffffff; border: 1px solid var(--border-line); border-radius: 10px; position: relative; }
+        .hardware-screen { position: absolute; top: 12px; left: 10px; right: 10px; height: 18px; background: #1d1d1f; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #34c759; font-size: 9px; font-weight: 700; }
+        .hardware-port { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 22px; height: 6px; background: #8e8e93; border-radius: 1px; }
+
+        .theme-dark-selected .hardware-canvas { background: #1c1c1e; }
+        .theme-dark-selected .hardware-body { background: #2c2c2e; border-color: #3a3a3c; }
+
+        .color-picker-container { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .color-label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .swatches { display: flex; gap: 12px; }
+        .swatch { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border-line); cursor: pointer; }
+        .swatch.silver { background-color: #e5e5ea; }
+        .swatch.black { background-color: #1d1d1f; }
+        .swatch.active { border: 2px solid var(--text-dark); box-shadow: 0 0 0 2px #ffffff; }
+
+        .product-title { font-size: 24px; margin-bottom: 6px; font-weight: 700; }
+        .product-subtitle { font-size: 12px; color: var(--accent-blue); font-weight: 700; margin-bottom: 14px; }
+        .product-desc { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+        .cta-btn { background: var(--text-dark); color: #ffffff; padding: 16px; border-radius: 12px; text-align: center; font-weight: 600; border: none; width: 100%; font-size: 16px; cursor: pointer; display: block; text-decoration: none; }
+
+        .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .spec-item { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        
+        .info-block { background: var(--card-bg); border-radius: 20px; padding: 24px; border: 1px solid var(--border-line); margin-bottom: 24px; scroll-margin-top: 90px; }
+        .info-block h2 { font-size: 22px; margin-bottom: 16px; font-weight: 700; }
+        .info-block p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+
+        /* 滑出式控制面板架構 */
+        .full-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0); z-index: 1000; pointer-events: none; transition: background 0.3s ease; }
+        
+        .side-panel { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #ffffff; padding: 24px; z-index: 1001; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .menu-list { list-style: none; display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+        .menu-link { text-decoration: none; color: var(--text-dark); font-size: 20px; font-weight: 600; }
+
+        .profile-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 320px; background: #ffffff; padding: 24px; z-index: 1001; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .profile-card { background: #f5f5f7; border-radius: 14px; padding: 16px; margin-top: 20px; }
+
+        /* 購物車面板 */
+        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px; z-index: 1001; transform: translateY(100%); transition: transform 0.3s ease-out; max-height: 80vh; display: flex; flex-direction: column; }
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
+        .close-btn { background: #f2f2f7; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-weight: bold; }
+        
+        .cart-items-container { overflow-y: auto; flex-grow: 1; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-line); padding-bottom: 16px; }
+        .qty-control { display: flex; align-items: center; background: #f2f2f7; border-radius: 8px; padding: 4px; gap: 12px; }
+        .qty-btn { border: none; background: none; width: 24px; height: 24px; font-weight: 600; cursor: pointer; }
+        
+        .promo-section { margin-bottom: 20px; border-top: 1px solid var(--border-line); padding-top: 16px; display: flex; gap: 8px; flex-shrink: 0; }
+        .promo-section input { background: #f2f2f7; border: none; border-radius: 10px; padding: 12px; flex: 1; outline: none; }
+        .promo-btn { background: var(--text-dark); color: #ffffff; border: none; border-radius: 10px; padding: 0 16px; cursor: pointer; font-weight: 600; }
+        .total-section { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-line); padding-top: 18px; font-weight: 600; flex-shrink: 0; }
+
+        #menu-target:target ~ .full-overlay, #profile-target:target ~ .full-overlay, #cart-target:target ~ .full-overlay { background: rgba(0,0,0,0.4); pointer-events: auto; }
+        #menu-target:target ~ .side-panel { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
+        #profile-target:target ~ .profile-panel { transform: translateX(0); box-shadow: -4px 0 24px rgba(0,0,0,0.15); }
+        #cart-target:target ~ .cart-sheet { transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <div id="menu-target"></div>
+    <div id="profile-target"></div>
+    <div id="cart-target"></div>
+
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="#menu-target" class="nav-link-btn">☰</a>
+            <div class="brand">TECHPULSE<span>.</span></div>
+        </div>
+        <div class="nav-right">
+            <a href="#profile-target" class="nav-link-btn">👤</a>
+            <a href="#cart-target" class="nav-link-btn">
+                🛒<span class="cart-badge" id="topCartBadge">0</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="search-block">
+        <div class="search-container">
+            <span style="color: var(--text-muted);">⌕</span>
+            <input type="text" placeholder="搜尋產品與規格...">
+        </div>
+    </div>
+
+    <div class="hero" id="home-section">
+        <h1>不受損害的權力</h1>
+        <p>專為高負載工作而設計的航空航太級電池。</p>
+    </div>
+    
+    <div class="category-section" id="gan-section">
+        <div class="product-card">
+            <div class="hardware-canvas" id="hardwareCanvas">
+                <div class="hardware-body">
+                    <div class="hardware-screen">100%</div>
+                    <div class="hardware-port"></div>
+                </div>
+            </div>
+            <div class="color-picker-container">
+                <span class="color-label">外觀配色:</span>
+                <div class="swatches">
+                    <div class="swatch silver active" id="btnSilver"></div>
+                    <div class="swatch black" id="btnBlack"></div>
+                </div>
+            </div>
+            <h2 class="product-title">PulseCore 140W</h2>
+            <div class="product-subtitle" id="productSubtitle">太空銀特仕版</div>
+            <p class="product-desc">配備雙 USB-C Power Delivery 3.1 接口，封裝於陽極氧化鋁外殼中。內置智慧熱能監控，防止效能老化。</p>
+            <a href="#cart-target" class="cta-btn" id="add-gan140">加入分配緩衝區 — $89</a>
+        </div>
+
+        <div class="product-card">
+            <div class="hardware-canvas">
+                <img src="gan30.jpg" alt="PulseCharge 30W Mini" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="color:var(--text-muted); font-size:13px; text-align:center; display:none;">[ 🪐 圖片載入失敗，請確認檔名是否為 gan30.jpg ]</div>
+            </div>
+            <h2 class="product-title">PulseCharge 30W Mini</h2>
+            <div class="product-subtitle">口袋極簡行動系列</div>
+            <p class="product-desc">體積縮小 50% 的極致氮化鎵晶片技術，專為手機與平版提供滿速快充，極致抗摔散熱設計。</p>
+            <a href="#cart-target" class="cta-btn" id="add-gan30">加入分配緩衝區 — $39</a>
+        </div>
+    </div>
+
+    <div class="category-section" id="laptop-section">
+        <div class="product-card">
+            <div class="hardware-canvas">
+                <img src="laptop.jpg" alt="PulseBook Pro 16-inch" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="color:var(--text-muted); font-size:13px; text-align:center; display:none;">[ 💻 圖片載入失敗，請確認檔名是否為 laptop.jpg ]</div>
+            </div>
+            <h2 class="product-title">PulseBook Pro 16"</h2>
+            <div class="product-subtitle">工作站級液態冷卻終端</div>
+            <p class="product-desc">搭載次世代量子架構處理晶片，全機身採用輕量化航太碳纖維外殼，支援高強度邏輯運算不降頻。</p>
+            <a href="#cart-target" class="cta-btn" id="add-laptop16">加入分配緩衝區 — $1,899</a>
+        </div>
+    </div>
+
+    <div class="specs-grid">
+        <div class="spec-item"><strong>⚡ 140W 總輸出</strong><span style="font-size:12px; color:var(--text-muted)">全速跨設備同步充電。</span></div>
+        <div class="spec-item"><strong>🧱 核心 GaN 技術</strong><span style="font-size:12px; color:var(--text-muted)">全新氮化鎵功率集成架構。</span></div>
+    </div>
+
+    <div class="info-block" id="specs-section">
+        <h2>技術規格中心</h2>
+        <p><strong>輸入電壓：</strong>100-240V ~ 50/60Hz 2.2A</p>
+        <p><strong>單口輸出：</strong>USB-C1/C2 可達 140W Max (PD 3.1 協議)</p>
+        <p><strong>安全防護：</strong>過流、過壓、過溫、短路防禦鏈結</p>
+    </div>
+
+    <div class="info-block" id="support-section">
+        <h2>客戶支援</h2>
+        <p>所有 TechPulse 終端產品均享有 3 年全球連保與硬體有限維護合約。如有任何初始化或連線異常問題，請隨時接入我們的 24/7 本地節點支援團隊。</p>
+    </div>
+
+    <a href="#" class="full-overlay"></a>
+
+    <div class="side-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="brand">科技脈動<span>.</span></div>
+            <a href="#" class="close-btn">✕</a>
+        </div>
+        <ul class="menu-list">
+            <li><a href="#home-section" class="menu-link">Store 首頁</a></li>
+            <li><a href="#laptop-section" class="menu-link">PulseCore 筆電系列</a></li>
+            <li><a href="#gan-section" class="menu-link">GaN 充電器系列</a></li>
+            <li><a href="#specs-section" class="menu-link">技術規格中心</a></li>
+            <li><a href="#support-section" class="menu-link">客戶支援</a></li>
+        </ul>
+    </div>
+
+    <div class="profile-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+            <span style="color:var(--text-muted); font-weight:600;">Account Console</span>
+            <a href="#" class="close-btn">✕</a>
+        </div>
+        <div id="loginForm">
+            <h3 style="font-size:24px; margin-bottom:8px;">歡迎回來</h3>
+            <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">請驗證您的憑據以接入本地終端。</p>
+            <input type="text" id="loginUser" placeholder="使用者名稱 (admin)" style="background:#f2f2f7; border:none; border-radius:10px; padding:14px; width:100%; margin-bottom:12px; outline:none;">
+            <input type="password" id="loginPass" placeholder="密碼 (123)" style="background:#f2f2f7; border:none; border-radius:10px; padding:14px; width:100%; margin-bottom:20px; outline:none;">
+            <button class="cta-btn" id="submitLoginBtn">驗證身分並登入</button>
+        </div>
+        <div id="userInfo" style="display:none;">
+            <h3 style="font-size:24px; margin-bottom:8px;">核心帳戶已連線</h3>
+            <div class="profile-card">
+                <div style="font-weight:700; font-size:16px;">TechPulse_User (測試帳戶)</div>
+                <div style="color:#86868b; font-size:13px; margin-top:4px;">terminal-node-01@techpulse.io</div>
+            </div>
+            <button class="cta-btn" style="background:var(--error-red); margin-top:24px;" id="logoutBtn">斷開安全連線</button>
+        </div>
+    </div>
+
+    <div class="cart-sheet">
+        <div class="sheet-header">
+            <span style="color:var(--text-muted); font-weight:600;">分配緩衝區 (購物車)</span>
+            <a href="#" class="close-btn">✕</a>
+        </div>
+        
+        <div class="cart-items-container" id="cartItemsList">
+            <div style="color:var(--text-muted); text-align:center; padding:20px 0;">緩衝區目前為空</div>
+        </div>
+
+        <div class="promo-section">
+            <input type="text" id="promoInput" placeholder="輸入折扣碼: PULSE2026">
+            <button class="promo-btn" id="promoBtn">套用</button>
+        </div>
+        <p id="promoMsg" style="font-size:12px; margin-bottom:10px; display:none;"></p>
+        <div class="total-section">
+            <span>總計金額</span>
+            <div style="text-align:right;">
+                <div id="discountLine" style="font-size:13px; color:var(--error-red); display:none;">全局折扣: -$20.00</div>
+                <div id="totalAmount" style="font-size:18px; color:var(--text-dark); font-weight:700;">$0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {}; 
+        let selectedColor = '太空銀';
+        let discountApplied = false;
+
+        // 當網頁載入完成後，由 JS 強制綁定所有事件防禦被攔截
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // 綁定加入購物車事件
+            document.getElementById('add-gan140').addEventListener('click', (e) => {
+                addToCart('gan140', 'PulseCore 140W', 89, 1);
+            });
+            document.getElementById('add-gan30').addEventListener('click', (e) => {
+                addToCart('gan30', 'PulseCharge 30W Mini', 39, 0);
+            });
+            document.getElementById('add-laptop16').addEventListener('click', (e) => {
+                addToCart('laptop16', 'PulseBook Pro 16-inch', 1899, 0);
+            });
+
+            // 綁定配色切換
+            document.getElementById('btnSilver').addEventListener('click', () => switchColor('silver'));
+            document.getElementById('btnBlack').addEventListener('click', () => switchColor('black'));
+
+            // 綁定登入與折扣碼
+            document.getElementById('submitLoginBtn').addEventListener('click', checkLogin);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('promoBtn').addEventListener('click', applyPromo);
+        });
+
+        function switchColor(color) {
+            const canvas = document.getElementById('hardwareCanvas');
+            const subtitle = document.getElementById('productSubtitle');
+            const btnSilver = document.getElementById('btnSilver');
+            const btnBlack = document.getElementById('btnBlack');
+            
+            if (color === 'silver') {
+                canvas.classList.remove('theme-dark-selected');
+                btnSilver.classList.add('active'); btnBlack.classList.remove('active');
+                subtitle.innerText = '太空銀特仕版'; selectedColor = '太空銀';
+            } else {
+                canvas.classList.add('theme-dark-selected');
+                btnSilver.classList.remove('active'); btnBlack.classList.add('active');
+                subtitle.innerText = '霧面黑特仕版'; selectedColor = '霧面黑';
+            }
+            if (cart['gan140']) {
+                cart['gan140'].color = selectedColor;
+                renderCart();
+            }
+        }
+
+        function addToCart(id, name, price, hasColor) {
+            if (cart[id]) {
+                cart[id].qty += 1;
+            } else {
+                cart[id] = {
+                    name: name,
+                    price: price,
+                    qty: 1,
+                    color: (hasColor === 1) ? selectedColor : null
+                };
+            }
+            renderCart();
+        }
+
+        // 全域範圍函數，供動態產生的 + / - 按鈕點擊呼叫
+        window.changeQty = function(id, change) {
+            if (!cart[id]) return;
+            cart[id].qty += change;
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+            }
+            renderCart();
+        };
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            let totalItems = 0;
+            let subtotal = 0;
+            const keys = Object.keys(cart);
+
+            if (keys.length === 0) {
+                container.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px 0;">緩衝區目前為空</div>';
+                document.getElementById('topCartBadge').innerText = '0';
+                document.getElementById('totalAmount').innerText = '$0.00';
+                document.getElementById('discountLine').style.display = 'none';
+                return;
+            }
+
+            for (let i = 0; i < keys.length; i++) {
+                
