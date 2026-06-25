@@ -27,79 +27,26 @@
         .brand span { color: var(--accent-blue); }
         .cart-badge { position: absolute; top: -5px; right: -8px; background: var(--accent-blue); color: #ffffff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
 
-        /* Search */
-        .search-block { margin-top: 10px; margin-bottom: 24px; }
-        .search-container { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
-        .search-container input { border: none; background: none; width: 100%; outline: none; font-size: 14px; color: var(--text-dark); }
-
-        /* Hero Heading */
-        .hero { text-align: center; padding: 20px 0 30px 0; scroll-margin-top: 90px; }
-        .hero h1 { font-size: 32px; margin-bottom: 8px; font-weight: 700; }
-        .hero p { color: var(--text-muted); font-size: 15px; }
-
-        .category-section { scroll-margin-top: 90px; margin-top: 20px; }
-
         /* Product Card */
         .product-card { background: var(--card-bg); border-radius: 20px; padding: 24px; border: 1px solid var(--border-line); margin-bottom: 24px; }
         .hardware-canvas { width: 100%; height: 220px; border-radius: 14px; margin-bottom: 24px; background: #e5e5ea; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
         .hardware-canvas img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Native Charger CSS Artwork */
-        .hardware-body { width: 70px; height: 130px; background: #ffffff; border: 1px solid var(--border-line); border-radius: 10px; position: relative; }
-        .hardware-screen { position: absolute; top: 12px; left: 10px; right: 10px; height: 18px; background: #1d1d1f; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #34c759; font-size: 9px; font-weight: 700; }
-        .hardware-port { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 22px; height: 6px; background: #8e8e93; border-radius: 1px; }
-
-        .theme-dark-selected .hardware-canvas { background: #1c1c1e; }
-        .theme-dark-selected .hardware-body { background: #2c2c2e; border-color: #3a3a3c; }
-
-        .color-picker-container { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .color-label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
-        .swatches { display: flex; gap: 12px; }
-        .swatch { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border-line); cursor: pointer; }
-        .swatch.silver { background-color: #e5e5ea; }
-        .swatch.black { background-color: #1d1d1f; }
-        .swatch.active { border: 2px solid var(--text-dark); box-shadow: 0 0 0 2px #ffffff; }
-
-        .product-title { font-size: 24px; margin-bottom: 6px; font-weight: 700; }
-        .product-subtitle { font-size: 12px; color: var(--accent-blue); font-weight: 700; margin-bottom: 14px; }
-        .product-desc { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+        
         .cta-btn { background: var(--text-dark); color: #ffffff; padding: 16px; border-radius: 12px; text-align: center; font-weight: 600; border: none; width: 100%; font-size: 16px; cursor: pointer; display: block; text-decoration: none; }
 
-        .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-        .spec-item { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
-        
-        .info-block { background: var(--card-bg); border-radius: 20px; padding: 24px; border: 1px solid var(--border-line); margin-bottom: 24px; scroll-margin-top: 90px; }
-        .info-block h2 { font-size: 22px; margin-bottom: 16px; font-weight: 700; }
-        .info-block p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
-
-        /* Overlays & Side Panels */
+        /* Overlays & Panels */
         .full-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0); z-index: 1000; pointer-events: none; transition: background 0.3s ease; }
-        
-        .side-panel { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: #ffffff; padding: 24px; z-index: 1001; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .menu-list { list-style: none; display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
-        .menu-link { text-decoration: none; color: var(--text-dark); font-size: 20px; font-weight: 600; }
-
-        .profile-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 320px; background: #ffffff; padding: 24px; z-index: 1001; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .profile-card { background: #f5f5f7; border-radius: 14px; padding: 16px; margin-top: 20px; }
+        .side-panel, .profile-panel { position: fixed; top: 0; bottom: 0; width: 280px; background: #ffffff; padding: 24px; z-index: 1001; transition: transform 0.3s ease; }
+        .side-panel { left: 0; transform: translateX(-100%); }
+        .profile-panel { right: 0; transform: translateX(100%); }
 
         /* Shopping Cart Sheet */
-        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px; z-index: 1001; transform: translateY(100%); transition: transform 0.3s ease-out; max-height: 80vh; display: flex; flex-direction: column; }
-        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
-        .close-btn { background: #f2f2f7; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-weight: bold; }
+        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px; z-index: 1001; transform: translateY(100%); transition: transform 0.3s ease; max-height: 80vh; display: flex; flex-direction: column; }
         
-        .cart-items-container { overflow-y: auto; flex-grow: 1; margin-bottom: 15px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-line); padding-bottom: 16px; }
-        .qty-control { display: flex; align-items: center; background: #f2f2f7; border-radius: 8px; padding: 4px; gap: 12px; }
-        .qty-btn { border: none; background: none; width: 24px; height: 24px; font-weight: 600; cursor: pointer; }
-        
-        .promo-section { margin-bottom: 20px; border-top: 1px solid var(--border-line); padding-top: 16px; display: flex; gap: 8px; flex-shrink: 0; }
-        .promo-section input { background: #f2f2f7; border: none; border-radius: 10px; padding: 12px; flex: 1; outline: none; }
-        .promo-btn { background: var(--text-dark); color: #ffffff; border: none; border-radius: 10px; padding: 0 16px; cursor: pointer; font-weight: 600; }
-        .total-section { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-line); padding-top: 18px; font-weight: 600; flex-shrink: 0; }
-
+        /* Logic Visibility */
         #menu-target:target ~ .full-overlay, #profile-target:target ~ .full-overlay, #cart-target:target ~ .full-overlay { background: rgba(0,0,0,0.4); pointer-events: auto; }
-        #menu-target:target ~ .side-panel { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
-        #profile-target:target ~ .profile-panel { transform: translateX(0); box-shadow: -4px 0 24px rgba(0,0,0,0.15); }
+        #menu-target:target ~ .side-panel { transform: translateX(0); }
+        #profile-target:target ~ .profile-panel { transform: translateX(0); }
         #cart-target:target ~ .cart-sheet { transform: translateY(0); }
     </style>
 </head>
@@ -122,202 +69,57 @@
         </div>
     </div>
 
-    <div class="search-block">
-        <div class="search-container">
-            <span style="color: var(--text-muted);">⌕</span>
-            <input type="text" placeholder="Search products and specifications...">
-        </div>
-    </div>
-
-    <div class="hero" id="home-section">
+    <div style="margin-top: 100px; text-align: center;">
         <h1>Power Beyond Compromise</h1>
-        <p>Engineered with aerospace-grade power management for heavy workloads.</p>
-    </div>
-    
-    <div class="category-section" id="gan-section">
-        <div class="product-card">
-            <div class="hardware-canvas" id="hardwareCanvas">
-                <div class="hardware-body">
-                    <div class="hardware-screen">100%</div>
-                    <div class="hardware-port"></div>
-                </div>
-            </div>
-            <div class="color-picker-container">
-                <span class="color-label">Finish:</span>
-                <div class="swatches">
-                    <div class="swatch silver active" id="btnSilver" onclick="switchColor('silver')"></div>
-                    <div class="swatch black" id="btnBlack" onclick="switchColor('black')"></div>
-                </div>
-            </div>
-            <h2 class="product-title">PulseCore 140W</h2>
-            <div class="product-subtitle" id="productSubtitle">Space Silver Edition</div>
-            <p class="product-desc">Features dual USB-C Power Delivery 3.1 ports encased in an anodized aluminum housing. Built-in intelligent thermal monitoring prevents performance degradation.</p>
-            <button class="cta-btn" onclick="addToCart('gan140', 'PulseCore 140W', 89, 1)">Add to Buffer Zone — $89</button>
-        </div>
-
-        <div class="product-card">
-            <div class="hardware-canvas">
-                <img src="gan30.jpg" alt="PulseCharge 30W Mini" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <div style="color:var(--text-muted); font-size:13px; text-align:center; display:none;">[ 🪐 Image load failed. Verify filename is gan30.jpg ]</div>
-            </div>
-            <h2 class="product-title">PulseCharge 30W Mini</h2>
-            <div class="product-subtitle">Ultra-Compact Mobile Series</div>
-            <p class="product-desc">Employs cutting-edge GaN technology to reduce size by 50% while providing full-speed rapid charging for phones and tablets with drop-resistant thermal protection.</p>
-            <button class="cta-btn" onclick="addToCart('gan30', 'PulseCharge 30W Mini', 39, 0)">Add to Buffer Zone — $39</button>
-        </div>
+        <p style="color: var(--text-muted);">TechPulse Pro Series</p>
     </div>
 
-    <div class="category-section" id="laptop-section">
+    <div style="margin-top: 40px;">
         <div class="product-card">
-            <div class="hardware-canvas">
-                <img src="laptop.jpg" alt="PulseBook Pro 16-inch" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <div style="color:var(--text-muted); font-size:13px; text-align:center; display:none;">[ 💻 Image load failed. Verify filename is laptop.jpg ]</div>
-            </div>
+            <div class="hardware-canvas"><img src="gan30.jpg" alt="Charger"></div>
+            <h2 class="product-title">PulseCharge 30W</h2>
+            <button class="cta-btn" onclick="addToCart('gan30', 'PulseCharge 30W', 39)">Add to Cart — $39</button>
+        </div>
+        <div class="product-card">
+            <div class="hardware-canvas"><img src="laptop.jpg" alt="Laptop"></div>
             <h2 class="product-title">PulseBook Pro 16"</h2>
-            <div class="product-subtitle">Workstation Liquid-Cooled Terminal</div>
-            <p class="product-desc">Driven by a next-generation quantum-architecture processing unit, featuring an ultra-lightweight aerospace carbon fiber chassis that handles high-intensity logic computing seamlessly.</p>
-            <button class="cta-btn" onclick="addToCart('laptop16', 'PulseBook Pro 16-inch', 1899, 0)">Add to Buffer Zone — $1,899</button>
+            <button class="cta-btn" onclick="addToCart('laptop16', 'PulseBook Pro 16', 1899)">Add to Cart — $1899</button>
         </div>
-    </div>
-
-    <div class="specs-grid">
-        <div class="spec-item"><strong>⚡ 140W Output</strong><span style="font-size:12px; color:var(--text-muted)">Simultaneous full-speed multi-device charging.</span></div>
-        <div class="spec-item"><strong>🧱 Core GaN Tech</strong><span style="font-size:12px; color:var(--text-muted)">Advanced integrated gallium nitride architecture.</span></div>
-    </div>
-
-    <div class="info-block" id="specs-section">
-        <h2>Technical Specification Center</h2>
-        <p><strong>Input Voltage:</strong> 100-240V ~ 50/60Hz 2.2A</p>
-        <p><strong>Single Port Output:</strong> USB-C1/C2 up to 140W Max (PD 3.1 Protocol)</p>
-        <p><strong>Safety Protection:</strong> Over-current, over-voltage, over-temperature, and short-circuit defensive grid.</p>
-    </div>
-
-    <div class="info-block" id="support-section">
-        <h2>Customer Support</h2>
-        <p>All TechPulse terminal hardware is backed by a 3-year global warranty and limited hardware maintenance agreement. For deployment issues or system inquiries, connect with our 24/7 local node support team.</p>
     </div>
 
     <a href="#" class="full-overlay"></a>
-
-    <div class="side-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="brand">TECHPULSE<span>.</span></div>
-            <a href="#" class="close-btn">✕</a>
-        </div>
-        <ul class="menu-list">
-            <li><a href="#home-section" class="menu-link">Store Home</a></li>
-            <li><a href="#laptop-section" class="menu-link">PulseCore Laptops</a></li>
-            <li><a href="#gan-section" class="menu-link">GaN Chargers</a></li>
-            <li><a href="#specs-section" class="menu-link">Specifications</a></li>
-            <li><a href="#support-section" class="menu-link">Support</a></li>
-        </ul>
-    </div>
-
-    <div class="profile-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-            <span style="color:var(--text-muted); font-weight:600;">Account Console</span>
-            <a href="#" class="close-btn">✕</a>
-        </div>
-        <div id="loginForm">
-            <h3 style="font-size:24px; margin-bottom:8px;">Welcome Back</h3>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Verify your credentials to access your local node terminal.</p>
-            <input type="text" id="loginUser" placeholder="Username (admin)" style="background:#f2f2f7; border:none; border-radius:10px; padding:14px; width:100%; margin-bottom:12px; outline:none;">
-            <input type="password" id="loginPass" placeholder="Password (123)" style="background:#f2f2f7; border:none; border-radius:10px; padding:14px; width:100%; margin-bottom:20px; outline:none;">
-            <button class="cta-btn" onclick="checkLogin()">Authenticate and Connect</button>
-        </div>
-        <div id="userInfo" style="display:none;">
-            <h3 style="font-size:24px; margin-bottom:8px;">Core Account Linked</h3>
-            <div class="profile-card">
-                <div style="font-weight:700; font-size:16px;">TechPulse_User (Test Node)</div>
-                <div style="color:#86868b; font-size:13px; margin-top:4px;">terminal-node-01@techpulse.io</div>
-            </div>
-            <button class="cta-btn" style="background:var(--error-red); margin-top:24px;" onclick="logout()">Disconnect Terminal</button>
-        </div>
-    </div>
-
+    <div class="side-panel"><h3>Menu</h3><a href="#">Close</a></div>
+    <div class="profile-panel"><h3>Account</h3><a href="#">Close</a></div>
+    
     <div class="cart-sheet">
-        <div class="sheet-header">
-            <span style="color:var(--text-muted); font-weight:600;">Allocation Buffer Zone (Cart)</span>
-            <a href="#" class="close-btn">✕</a>
+        <div style="display:flex; justify-content:space-between;">
+            <h3>Your Cart</h3>
+            <a href="#">Close</a>
         </div>
-        
-        <div class="cart-items-container" id="cartItemsList">
-            <div style="color:var(--text-muted); text-align:center; padding:20px 0;">Buffer zone is currently empty.</div>
-        </div>
-
-        <div class="promo-section">
-            <input type="text" id="promoInput" placeholder="Promo Code: PULSE2026">
-            <button class="promo-btn" onclick="applyPromo()">Apply</button>
-        </div>
-        <p id="promoMsg" style="font-size:12px; margin-bottom:10px; display:none;"></p>
-        <div class="total-section">
-            <span>Total Amount</span>
-            <div style="text-align:right;">
-                <div id="discountLine" style="font-size:13px; color:var(--error-red); display:none;">Global Discount: -$20.00</div>
-                <div id="totalAmount" style="font-size:18px; color:var(--text-dark); font-weight:700;">$0.00</div>
-            </div>
-        </div>
+        <div id="cartItemsList" style="margin: 20px 0;">Empty</div>
+        <div id="totalAmount">Total: $0</div>
     </div>
 
     <script>
-        let cart = {}; 
-        let selectedColor = 'Space Silver';
-        let discountApplied = false;
-
-        function switchColor(color) {
-            const canvas = document.getElementById('hardwareCanvas');
-            const subtitle = document.getElementById('productSubtitle');
-            const btnSilver = document.getElementById('btnSilver');
-            const btnBlack = document.getElementById('btnBlack');
-            
-            if (color === 'silver') {
-                canvas.classList.remove('theme-dark-selected');
-                btnSilver.classList.add('active'); btnBlack.classList.remove('active');
-                subtitle.innerText = 'Space Silver Edition'; selectedColor = 'Space Silver';
-            } else {
-                canvas.classList.add('theme-dark-selected');
-                btnSilver.classList.remove('active'); btnBlack.classList.add('active');
-                subtitle.innerText = 'Matte Black Edition'; selectedColor = 'Matte Black';
-            }
-            if (cart['gan140']) {
-                cart['gan140'].color = selectedColor;
-                renderCart();
-            }
-        }
-
-        function addToCart(id, name, price, hasColor) {
-            if (cart[id]) {
-                cart[id].qty += 1;
-            } else {
-                cart[id] = {
-                    name: name,
-                    price: price,
-                    qty: 1,
-                    color: (hasColor === 1) ? selectedColor : null
-                };
-            }
+        let cart = {};
+        function addToCart(id, name, price) {
+            if(cart[id]) cart[id].qty++;
+            else cart[id] = {name: name, price: price, qty: 1};
             renderCart();
             window.location.hash = 'cart-target';
         }
-
-        window.changeQty = function(id, change) {
-            if (!cart[id]) return;
-            cart[id].qty += change;
-            if (cart[id].qty <= 0) {
-                delete cart[id];
-            }
-            renderCart();
-        };
-
         function renderCart() {
-            const container = document.getElementById('cartItemsList');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            let totalItems = 0;
-            let subtotal = 0;
-            const keys = Object.keys(cart);
-
-            if (keys.length === 0) {
-                container.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px 0;">Buffer zone is currently empty.</div>';
-                document.getElementById('topCartBad
+            let list = document.getElementById('cartItemsList');
+            let totalDiv = document.getElementById('totalAmount');
+            let total = 0, html = '';
+            for(let id in cart) {
+                html += `<div>${cart[id].name} x ${cart[id].qty}</div>`;
+                total += cart[id].price * cart[id].qty;
+            }
+            list.innerHTML = html || 'Empty';
+            totalDiv.innerText = 'Total: $' + total;
+            document.getElementById('topCartBadge').innerText = Object.keys(cart).length;
+        }
+    </script>
+</body>
+</html>
