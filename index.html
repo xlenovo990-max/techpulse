@@ -5,120 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechPulse Pro</title>
     <style>
-        :root {
-            --bg-main: #f5f5f7;       
-            --card-bg: #ffffff;       
-            --text-dark: #1d1d1f;     
-            --text-muted: #86868b;    
-            --accent-blue: #0066cc;   
-            --border-line: #e5e5ea;   
-            --error-red: #ff3b30;
-            --success-green: #34c759;
-        }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-main); color: var(--text-dark); font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; padding-top: 85px; overflow-x: hidden; }
-
+        :root { --bg-main: #f5f5f7; --card-bg: #ffffff; --text-dark: #1d1d1f; --accent-blue: #0066cc; --border-line: #e5e5ea; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg-main); padding-top: 80px; margin: 0; }
+        
         /* Navbar */
-        .navbar { position: fixed; top: 0; left: 0; right: 0; background: #ffffff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-line); z-index: 999; }
-        .nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
-        .nav-link-btn { text-decoration: none; background: none; border: none; font-size: 18px; color: var(--text-dark); cursor: pointer; position: relative; }
-        .brand { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
-        .brand span { color: var(--accent-blue); }
-        .cart-badge { position: absolute; top: -5px; right: -8px; background: var(--accent-blue); color: #ffffff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
-
-        /* Product Card */
-        .product-card { background: var(--card-bg); border-radius: 20px; padding: 24px; border: 1px solid var(--border-line); margin-bottom: 24px; }
-        .hardware-canvas { width: 100%; height: 220px; border-radius: 14px; margin-bottom: 24px; background: #e5e5ea; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .hardware-canvas img { width: 100%; height: 100%; object-fit: cover; }
+        .navbar { position: fixed; top: 0; width: 100%; background: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-line); z-index: 1000; }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 20px; }
         
-        .cta-btn { background: var(--text-dark); color: #ffffff; padding: 16px; border-radius: 12px; text-align: center; font-weight: 600; border: none; width: 100%; font-size: 16px; cursor: pointer; display: block; text-decoration: none; }
-
-        /* Overlays & Panels */
-        .full-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0); z-index: 1000; pointer-events: none; transition: background 0.3s ease; }
-        .side-panel, .profile-panel { position: fixed; top: 0; bottom: 0; width: 280px; background: #ffffff; padding: 24px; z-index: 1001; transition: transform 0.3s ease; }
+        /* Panels */
+        .panel { position: fixed; top: 0; bottom: 0; width: 280px; background: #ffffff; padding: 20px; z-index: 2000; transition: transform 0.3s ease; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         .side-panel { left: 0; transform: translateX(-100%); }
-        .profile-panel { right: 0; transform: translateX(100%); }
-
-        /* Shopping Cart Sheet */
-        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px; z-index: 1001; transform: translateY(100%); transition: transform 0.3s ease; max-height: 80vh; display: flex; flex-direction: column; }
+        .right-panel { right: 0; transform: translateX(100%); }
         
-        /* Logic Visibility */
-        #menu-target:target ~ .full-overlay, #profile-target:target ~ .full-overlay, #cart-target:target ~ .full-overlay { background: rgba(0,0,0,0.4); pointer-events: auto; }
-        #menu-target:target ~ .side-panel { transform: translateX(0); }
-        #profile-target:target ~ .profile-panel { transform: translateX(0); }
-        #cart-target:target ~ .cart-sheet { transform: translateY(0); }
+        /* Logic: Using IDs to toggle panels */
+        #menu-panel:target { transform: translateX(0); }
+        #account-panel:target { transform: translateX(0); }
+        #cart-panel:target { transform: translateY(0); }
+        
+        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; padding: 20px; border-radius: 20px 20px 0 0; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; }
+        
+        .product-card { background: var(--card-bg); margin: 20px; padding: 20px; border-radius: 20px; }
+        .cta-btn { background: var(--text-dark); color: white; padding: 15px; border-radius: 10px; width: 100%; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="menu-target"></div>
-    <div id="profile-target"></div>
-    <div id="cart-target"></div>
+    <div id="menu-panel" class="panel side-panel">
+        <h3>Menu</h3>
+        <a href="#">Close</a>
+        <ul style="list-style: none; margin-top: 20px;">
+            <li>Home</li>
+            <li>Products</li>
+            <li>Support</li>
+        </ul>
+    </div>
+
+    <div id="account-panel" class="panel right-panel">
+        <h3>Account</h3>
+        <a href="#">Close</a>
+        <p>Please log in to continue.</p>
+    </div>
 
     <div class="navbar">
-        <div class="nav-left">
-            <a href="#menu-target" class="nav-link-btn">☰</a>
-            <div class="brand">TECHPULSE<span>.</span></div>
-        </div>
-        <div class="nav-right">
-            <a href="#profile-target" class="nav-link-btn">👤</a>
-            <a href="#cart-target" class="nav-link-btn">
-                🛒<span class="cart-badge" id="topCartBadge">0</span>
-            </a>
+        <a href="#menu-panel" class="nav-link">☰</a>
+        <strong>TECHPULSE</strong>
+        <div>
+            <a href="#account-panel" class="nav-link">👤</a>
+            <a href="#cart-panel" class="nav-link">🛒</a>
         </div>
     </div>
 
-    <div style="margin-top: 100px; text-align: center;">
-        <h1>Power Beyond Compromise</h1>
-        <p style="color: var(--text-muted);">TechPulse Pro Series</p>
+    <div class="product-card">
+        <h2>PulseCharge 30W</h2>
+        <button class="cta-btn" onclick="addToCart('PulseCharge 30W', 39)">Add to Cart — $39</button>
     </div>
 
-    <div style="margin-top: 40px;">
-        <div class="product-card">
-            <div class="hardware-canvas"><img src="gan30.jpg" alt="Charger"></div>
-            <h2 class="product-title">PulseCharge 30W</h2>
-            <button class="cta-btn" onclick="addToCart('gan30', 'PulseCharge 30W', 39)">Add to Cart — $39</button>
-        </div>
-        <div class="product-card">
-            <div class="hardware-canvas"><img src="laptop.jpg" alt="Laptop"></div>
-            <h2 class="product-title">PulseBook Pro 16"</h2>
-            <button class="cta-btn" onclick="addToCart('laptop16', 'PulseBook Pro 16', 1899)">Add to Cart — $1899</button>
-        </div>
+    <div class="product-card">
+        <h2>PulseBook Pro 16"</h2>
+        <button class="cta-btn" onclick="addToCart('PulseBook Pro 16', 1899)">Add to Cart — $1899</button>
     </div>
 
-    <a href="#" class="full-overlay"></a>
-    <div class="side-panel"><h3>Menu</h3><a href="#">Close</a></div>
-    <div class="profile-panel"><h3>Account</h3><a href="#">Close</a></div>
-    
-    <div class="cart-sheet">
+    <div id="cart-panel" class="cart-sheet">
         <div style="display:flex; justify-content:space-between;">
             <h3>Your Cart</h3>
             <a href="#">Close</a>
         </div>
-        <div id="cartItemsList" style="margin: 20px 0;">Empty</div>
+        <div id="cartItemsList">Empty</div>
         <div id="totalAmount">Total: $0</div>
     </div>
 
     <script>
         let cart = {};
-        function addToCart(id, name, price) {
-            if(cart[id]) cart[id].qty++;
-            else cart[id] = {name: name, price: price, qty: 1};
+        function addToCart(name, price) {
+            if(cart[name]) cart[name].qty++;
+            else cart[name] = {price: price, qty: 1};
             renderCart();
-            window.location.hash = 'cart-target';
+            window.location.hash = 'cart-panel';
         }
         function renderCart() {
             let list = document.getElementById('cartItemsList');
-            let totalDiv = document.getElementById('totalAmount');
             let total = 0, html = '';
-            for(let id in cart) {
-                html += `<div>${cart[id].name} x ${cart[id].qty}</div>`;
-                total += cart[id].price * cart[id].qty;
+            for(let name in cart) {
+                html += `<div>${name} x ${cart[name].qty}</div>`;
+                total += cart[name].price * cart[name].qty;
             }
-            list.innerHTML = html || 'Empty';
-            totalDiv.innerText = 'Total: $' + total;
-            document.getElementById('topCartBadge').innerText = Object.keys(cart).length;
+            list.innerHTML = html;
+            document.getElementById('totalAmount').innerText = 'Total: $' + total;
         }
     </script>
 </body>
