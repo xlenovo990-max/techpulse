@@ -3,94 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechPulse Pro</title>
+    <title>TechPulse — Premium Workspace Ecosystem</title>
     <style>
-        :root { --bg-main: #f5f5f7; --card-bg: #ffffff; --text-dark: #1d1d1f; --accent-blue: #0066cc; --border-line: #e5e5ea; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg-main); padding-top: 80px; margin: 0; }
+        :root {
+            --bg-main: #f5f5f7;       
+            --card-bg: #ffffff;       
+            --text-dark: #1d1d1f;     
+            --text-muted: #86868b;    
+            --accent-blue: #0066cc;   
+            --border-line: #e5e5ea;   
+        }
         
-        /* Navbar */
-        .navbar { position: fixed; top: 0; width: 100%; background: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-line); z-index: 1000; }
-        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 20px; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        body { background-color: var(--bg-main); color: var(--text-dark); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; padding-top: 90px; }
+
+        /* Navbar with Blur Effect */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-line); z-index: 1000; }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: 22px; }
+        .nav-btn { background: none; border: none; font-size: 22px; color: var(--text-dark); cursor: pointer; text-decoration: none; position: relative; }
+        .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; text-decoration: none; color: var(--text-dark); }
+        .brand span { color: var(--accent-blue); }
+        .cart-badge { position: absolute; top: -4px; right: -8px; background: var(--accent-blue); color: #ffffff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+        /* Hero Header */
+        .hero-section { text-align: center; margin: 35px 0; }
+        .hero-section h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-dark); }
+        .hero-section p { color: var(--text-muted); font-size: 16px; margin-top: 6px; }
+
+        /* Product Grid */
+        .product-grid { display: flex; flex-direction: column; gap: 28px; max-width: 480px; margin: 0 auto; }
+        .product-card { background: var(--card-bg); border-radius: 24px; padding: 24px; border: 1px solid var(--border-line); box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: transform 0.2s; }
         
-        /* Panels */
-        .panel { position: fixed; top: 0; bottom: 0; width: 280px; background: #ffffff; padding: 20px; z-index: 2000; transition: transform 0.3s ease; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .side-panel { left: 0; transform: translateX(-100%); }
+        .img-container { width: 100%; height: 220px; border-radius: 16px; margin-bottom: 20px; background: #eaeaea; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .product-info h2 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+        .product-info p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.4; }
+        .cta-btn { background: var(--text-dark); color: #ffffff; padding: 15px; border-radius: 14px; text-align: center; font-weight: 600; border: none; width: 100%; font-size: 15px; cursor: pointer; transition: background 0.2s; }
+        .cta-btn:active { background: #333333; }
+
+        /* Functional Slide Panels & Bottom Sheet */
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1500; }
+        .panel { position: fixed; top: 0; bottom: 0; width: 300px; background: #ffffff; padding: 24px; z-index: 1600; transition: transform 0.3s ease; box-shadow: 0 0 24px rgba(0,0,0,0.08); }
+        .left-panel { left: 0; transform: translateX(-100%); }
         .right-panel { right: 0; transform: translateX(100%); }
+        .bottom-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-radius: 24px 24px 0 0; padding: 24px; z-index: 1600; transform: translateY(100%); transition: transform 0.3s ease; max-height: 75vh; display: flex; flex-direction: column; box-shadow: 0 -8px 24px rgba(0,0,0,0.06); }
+
+        /* Target CSS Logic */
+        #menu:target ~ .overlay, #account:target ~ .overlay, #cart:target ~ .overlay { opacity: 1; pointer-events: auto; }
+        #menu:target ~ .left-panel { transform: translateX(0); }
+        #account:target ~ .right-panel { transform: translateX(0); }
+        #cart:target ~ .bottom-sheet { transform: translateY(0); }
+
+        /* Styled Panel Content */
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-line); padding-bottom: 14px; }
+        .panel-header h3 { font-size: 20px; font-weight: 600; }
+        .close-btn { text-decoration: none; color: var(--accent-blue); font-weight: 500; font-size: 15px; }
         
-        /* Logic: Using IDs to toggle panels */
-        #menu-panel:target { transform: translateX(0); }
-        #account-panel:target { transform: translateX(0); }
-        #cart-panel:target { transform: translateY(0); }
-        
-        .cart-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; padding: 20px; border-radius: 20px 20px 0 0; z-index: 2000; transform: translateY(100%); transition: transform 0.3s ease; }
-        
-        .product-card { background: var(--card-bg); margin: 20px; padding: 20px; border-radius: 20px; }
-        .cta-btn { background: var(--text-dark); color: white; padding: 15px; border-radius: 10px; width: 100%; border: none; cursor: pointer; }
+        .menu-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .menu-list li a { text-decoration: none; color: var(--text-dark); font-size: 16px; font-weight: 500; display: block; padding: 12px 16px; background: var(--bg-main); border-radius: 10px; }
+        .account-box { background: var(--bg-main); padding: 20px; border-radius: 14px; text-align: center; margin-top: 10px; }
+        .account-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 14px; }
+
+        /* Dynamic Cart Styling */
+        .cart-items { flex: 1; overflow-y: auto; margin: 15px 0; display: flex; flex-direction: column; gap: 14px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-line); }
+        .cart-item-name { font-weight: 500; }
+        .cart-item-price { color: var(--text-muted); font-size: 14px; }
+        .cart-empty { color: var(--text-muted); text-align: center; padding: 40px 0; font-style: italic; }
+        .cart-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-line); display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <div id="menu-panel" class="panel side-panel">
-        <h3>Menu</h3>
-        <a href="#">Close</a>
-        <ul style="list-style: none; margin-top: 20px;">
-            <li>Home</li>
-            <li>Products</li>
-            <li>Support</li>
+    <!-- Target Anchors for Navigation Panels -->
+    <div id="menu"></div>
+    <div id="account"></div>
+    <div id="cart"></div>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="#menu" class="nav-btn">☰</a>
+            <a href="#" class="brand">TECHPULSE<span>.</span></a>
+        </div>
+        <div class="nav-right">
+            <a href="#account" class="nav-btn">👤</a>
+            <a href="#cart" class="nav-btn">
+                🛒<span class="cart-badge" id="topCartBadge">0</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Hero Banner -->
+    <div class="hero-section">
+        <h1>Power Beyond Compromise</h1>
+        <p>Designed for Ultimate Productivity Ecosystem</p>
+    </div>
+
+    <!-- Main Showcase Grid -->
+    <div class="product-grid">
+        <!-- Item 1: Laptop -->
+        <div class="product-card">
+            <div class="img-container"><img src="laptop.jpg" alt="PulseBook Pro"></div>
+            <div class="product-info">
+                <h2>PulseBook Pro 16"</h2>
+                <p>Next-generation performance driven by premium architecture. Crafted beautifully for professional creators.</p>
+                <button class="cta-btn" onclick="addToCart('PulseBook Pro 16', 1899)">Add to Cart — $1899</button>
+            </div>
+        </div>
+
+        <!-- Item 2: PulseDock Pro (The New Star!) -->
+        <div class="product-card">
+            <div class="img-container"><img src="PulseDock Pro.jpg" alt="PulseDock Pro"></div>
+            <div class="product-info">
+                <h2>PulseDock Pro</h2>
+                <p>The ultimate 11-in-1 desktop productivity centerpiece. Seamless universal connectivity with 140W power delivery pass-through.</p>
+                <button class="cta-btn" onclick="addToCart('PulseDock Pro', 149)">Add to Cart — $149</button>
+            </div>
+        </div>
+
+        <!-- Item 3: 30W Charger -->
+        <div class="product-card">
+            <div class="img-container"><img src="gan30.jpg" alt="PulseCharge 30W"></div>
+            <div class="product-info">
+                <h2>PulseCharge 30W</h2>
+                <p>Ultra-compact GaN high-speed charging technology. Power up all your mobile essentials effortlessly at lightning speed.</p>
+                <button class="cta-btn" onclick="addToCart('PulseCharge 30W', 39)">Add to Cart — $39</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Smooth Overlay Cover Background -->
+    <a href="#" class="overlay"></a>
+
+    <!-- Left Navigation Drawer Panel -->
+    <div class="panel left-panel">
+        <div class="panel-header">
+            <h3>Explore</h3>
+            <a href="#" class="close-btn">✕ Close</a>
+        </div>
+        <ul class="menu-list">
+            <li><a href="#">Home Ecosystem</a></li>
+            <li><a href="#">Pro Hardware</a></li>
+            <li><a href="#">Audio Solutions</a></li>
+            <li><a href="#">Global Support</a></li>
         </ul>
     </div>
 
-    <div id="account-panel" class="panel right-panel">
-        <h3>Account</h3>
-        <a href="#">Close</a>
-        <p>Please log in to continue.</p>
-    </div>
-
-    <div class="navbar">
-        <a href="#menu-panel" class="nav-link">☰</a>
-        <strong>TECHPULSE</strong>
-        <div>
-            <a href="#account-panel" class="nav-link">👤</a>
-            <a href="#cart-panel" class="nav-link">🛒</a>
+    <!-- Right Profile Panel -->
+    <div class="panel right-panel">
+        <div class="panel-header">
+            <h3>Member Account</h3>
+            <a href="#" class="close-btn">✕ Close</a>
+        </div>
+        <div class="account-box">
+            <p>Access your exclusive premium membership benefits, orders, and software updates.</p>
+            <button class="cta-btn" style="font-size:14px; padding:12px;">Sign In / Register</button>
         </div>
     </div>
 
-    <div class="product-card">
-        <h2>PulseCharge 30W</h2>
-        <button class="cta-btn" onclick="addToCart('PulseCharge 30W', 39)">Add to Cart — $39</button>
-    </div>
-
-    <div class="product-card">
-        <h2>PulseBook Pro 16"</h2>
-        <button class="cta-btn" onclick="addToCart('PulseBook Pro 16', 1899)">Add to Cart — $1899</button>
-    </div>
-
-    <div id="cart-panel" class="cart-sheet">
-        <div style="display:flex; justify-content:space-between;">
+    <!-- Interactive Shopping Cart Bottom Sheet -->
+    <div class="bottom-sheet">
+        <div class="panel-header" style="margin-bottom:10px;">
             <h3>Your Cart</h3>
-            <a href="#">Close</a>
+            <a href="#" class="close-btn">✕ Close</a>
         </div>
-        <div id="cartItemsList">Empty</div>
-        <div id="totalAmount">Total: $0</div>
+        <div id="cartItemsList" class="cart-items">
+            <div class="cart-empty">Your shopping cart is currently empty.</div>
+        </div>
+        <div class="cart-footer">
+            <span>Total Amount:</span>
+            <span id="totalAmount">$0</span>
+        </div>
+        <button class="cta-btn" style="margin-top: 15px; background: var(--accent-blue);">Proceed to Checkout</button>
     </div>
 
+    <!-- Core Interactive Logic Script -->
     <script>
         let cart = {};
+        
         function addToCart(name, price) {
-            if(cart[name]) cart[name].qty++;
-            else cart[name] = {price: price, qty: 1};
+            if(cart[name]) {
+                cart[name].qty++;
+            } else {
+                cart[name] = { price: price, qty: 1 };
+            }
             renderCart();
-            window.location.hash = 'cart-panel';
+            // Automatically slide up the shopping cart preview smoothly
+            window.location.hash = 'cart';
         }
+        
         function renderCart() {
             let list = document.getElementById('cartItemsList');
-            let total = 0, html = '';
+            let totalDiv = document.getElementById('totalAmount');
+            let badge = document.getElementById('topCartBadge');
+            
+            let total = 0;
+            let totalItemsCount = 0;
+            let html = '';
+            
             for(let name in cart) {
-                html += `<div>${name} x ${cart[name].qty}</div>`;
-                total += cart[name].price * cart[name].qty;
+                let itemTotal = cart[name].price * cart[name].qty;
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <div class="cart-item-name">${name}</div>
+                            <div class="cart-item-price">$${cart[name].price} × ${cart[name].qty}</div>
+                        </div>
+                        <div style="font-weight:600;">$${itemTotal}</div>
+                    </div>
+                `;
+                total += itemTotal;
+                totalItemsCount += cart[name].qty;
             }
-            list.innerHTML = html;
-            document.getElementById('totalAmount').innerText = 'Total: $' + total;
+            
+            list.innerHTML = html || '<div class="cart-empty">Your shopping cart is currently empty.</div>';
+            totalDiv.innerText = '$' + total;
+            badge.innerText = totalItemsCount;
         }
     </script>
 </body>
